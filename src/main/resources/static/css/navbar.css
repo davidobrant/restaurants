@@ -1,0 +1,36 @@
+.navbar {
+    display: grid;
+    grid-template-columns: 20% 1fr 20%;
+    padding: .5rem 1rem;
+    background: var(--bg-nav);
+    box-shadow: var(--shadow-lg);
+}
+
+.navbar > * {
+    display: flex;
+    align items: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-link a {
+    text-decoration: none;
+}
+
+.nav-link.active a {
+    color: var(--text-active);
+}
+
+.nav-link:hover a {
+    color: var(--text-hover);
+}
+
+.nav-auth {
+    justify-content: flex-end;
+}

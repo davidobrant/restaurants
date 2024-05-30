@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<nav th:replace="~{components/navbar :: navbar(activePage=${activePage})}"></nav>
+<main>
+    <h1>Ooops!</h1>
+    <p th:if="${errorMessage == null}">Something went wrong...</p>
+    <p th:unless="${errorMessage == null}" th:text="${errorMessage}"></p>
+    <a href="/" class="error-link">Go back to Home</a>
+</main>
+<footer th:replace="~{components/footer :: footer}"></footer>
+</body>
+</html>
