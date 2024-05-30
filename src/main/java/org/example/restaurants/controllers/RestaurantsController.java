@@ -21,8 +21,10 @@ public class RestaurantsController {
 
     @GetMapping
     public String getRestaurantsPage(Model model) {
+        var restaurants = restaurantService.getAllRestaurants();
 
         model.addAttribute("activePage", "restaurants");
+        model.addAttribute("restaurants", restaurants);
 
         return "restaurants";
     }
@@ -38,7 +40,7 @@ public class RestaurantsController {
             model.addAttribute("restaurant", restaurant);
             return "restaurant";
         } catch (IllegalArgumentException e) {
-            throw new NotFoundException("Restaurant not found..." + "\n(Invalid ID...)");
+            throw new NotFoundException("Restaurant not found..." + "\n(Invalid ID)");
         }
     }
 
