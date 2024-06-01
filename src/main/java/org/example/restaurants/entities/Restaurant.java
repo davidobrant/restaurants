@@ -1,10 +1,7 @@
 package org.example.restaurants.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,19 +10,21 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
     private String name;
     private String description;
-    private Integer rating;
+    private Double rating;
     private String city;
     private String street;
-    private Integer zip;
+    private String zip;
     private String phone;
     private String email;
+    private boolean isOpen;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Menu menu;

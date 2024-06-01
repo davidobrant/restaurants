@@ -1,0 +1,16 @@
+.error-link {
+    color: var(--text-active) !important;
+}
+
+.error-link:hover {
+    color: var(--text-hover) !important;
+}
+
+.rating .star {
+    color: #FFD700; /* Gold color for filled stars */
+    margin-right: 2px;
+}
+
+.rating .star.empty {
+    color: #d3d3d3; /* Gray color for empty stars */
+}

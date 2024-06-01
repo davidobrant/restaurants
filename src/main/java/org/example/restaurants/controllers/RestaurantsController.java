@@ -20,24 +20,31 @@ public class RestaurantsController {
     RestaurantService restaurantService;
 
     @GetMapping
-    public String getRestaurantsPage(Model model) {
-        var restaurants = restaurantService.getAllRestaurants();
-
+    public String getRestaurantsPage(@RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String city,
+                                     @RequestParam(required = false) Boolean isOpen,
+                                     @RequestParam(required = false) Integer rating,
+                                     @RequestParam(required = false, defaultValue = "name") String sortBy,
+                                     @RequestParam(required = false, defaultValue = "asc") String sortDir,
+                                     Model model) {
+        var restaurants = restaurantService.getAllRestaurants(name, city, isOpen, rating, sortBy, sortDir);
         model.addAttribute("activePage", "restaurants");
         model.addAttribute("restaurants", restaurants);
+        model.addAttribute("cities", restaurantService.getAllCities());
 
         return "restaurants";
     }
 
     @GetMapping("{id}")
-    public String getRestaurantPage(@PathVariable("id") String id, Model model) {
+    public String getRestaurantPage(@PathVariable("id") Long id, Model model) {
         try {
-            UUID uuid = UUID.fromString(id);
-            var restaurant = restaurantService.getRestaurantById(uuid);
+            var restaurant = restaurantService.getRestaurantById(id);
             if (restaurant == null) {
                 throw new NotFoundException("Restaurant not found...");
             }
             model.addAttribute("restaurant", restaurant);
+            model.addAttribute("title", restaurant.getName() + " | Restaurant Details");
+
             return "restaurant";
         } catch (IllegalArgumentException e) {
             throw new NotFoundException("Restaurant not found..." + "\n(Invalid ID)");
