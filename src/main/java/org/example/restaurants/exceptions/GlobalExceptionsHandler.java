@@ -1,4 +1,4 @@
-package org.example.restaurants.controllers;
+package org.example.restaurants.exceptions;
 
 import org.example.restaurants.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;

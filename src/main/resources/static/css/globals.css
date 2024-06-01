@@ -7,12 +7,26 @@
 }
 
 :root {
-    --bg: #f8fafc;
-    --fg: #e2e8f0;
+
+    --p-50: #f8fafc;
+    --p-100: #f1f5f9;
+    --p-200: #e2e8f0;
+    --p-300: #cbd5e1;
+    --p-500: #64748b;
+    --p-700: #334155;
+
+    --bg: var(--p-50);
+    --fg: var(--p-100);
 
     --text-clr: #111;
     --text-active: #10b981;
     --text-hover: #f59e0b;
+
+    --btn-active: #10b981;
+    --btn-hover: #f59e0b;
+
+    --btn-border: 1px solid var(--p-300);
+    --btn-border-hover: 1px solid var(--p-700);
 
     --danger: #dc2626;
     --success: #16a34a;
@@ -22,7 +36,15 @@
     --bg-footer: #cbd5e1;
     --text-footer: #334155;
 
+    --rounded: 4px;
+    --rounded-md: 6px;
+    --rounded-lg: 8px;
+    --rounded-full: 9999px;
+
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 }
 
 html {
@@ -55,6 +77,15 @@ main {
     padding: 2rem 4rem;
     overflow-y: scroll;
     gap: 1rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+section {
+    width: clamp(450px, 900px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 a,
@@ -65,8 +96,21 @@ a:visited {
   color: var(--text-clr);
 }
 
-.hidden {
-    display: none;
+button {
+    padding: .2rem .4rem;
+    border-radius: var(--rounded-md);
+    cursor: pointer;
+    outline: none;
+    border: var(--btn-border);
+    background: var(--btn-active);
+}
+
+button:hover {
+    background: var(--btn-hover);
+}
+
+button:disabled {
+    background: none;
 }
 
 footer {
@@ -79,10 +123,31 @@ footer {
     font-size: .7rem;
 }
 
-.error-link {
-    color: var(--text-active) !important;
+
+
+main::-webkit-scrollbar {
+    width: 8px;  /* Width of the scrollbar */
 }
 
-.error-link:hover {
-    color: var(--text-hover) !important;
+main::-webkit-scrollbar-thumb {
+    background: #888;  /* Color of the scrollbar handle */
+    border-radius: 10px;  /* Round the corners */
+}
+
+main::-webkit-scrollbar-thumb:hover {
+    background: #555;  /* Color when hovered */
+}
+
+main::-webkit-scrollbar-track {
+    background: #f1f1f1;  /* Color of the scrollbar track */
+}
+
+/* Custom scrollbar styles for Firefox */
+main {
+    scrollbar-width: thin;  /* Thin scrollbar */
+    scrollbar-color: #888 #f1f1f1;  /* Scrollbar handle and track color */
+}
+
+main:focus {
+    outline: none;
 }

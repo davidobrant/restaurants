@@ -1,0 +1,125 @@
+.filter-restaurants {
+    border-radius: var(--rounded-md);
+    background: var(--p-200);
+    box-shadow: var(--shadow-md);
+}
+
+.filter-restaurants-form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.filter-restaurants-form .fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.filter-restaurants-form .fields > .filter,
+.filter-restaurants-form .fields > .sort {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.filter-restaurants-form .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.restaurants-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.restaurants-table {
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+}
+
+.restaurant-card {
+    box-shadow: var(--shadow-md);
+    border-radius: var(--rounded-lg);
+    background: var(--fg);
+    width: 100%;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.restaurant-card .restaurant-item {
+    display: grid;
+    grid-template-columns: 1fr 20% 20% 60px 100px;
+    align-items: center;
+}
+
+.restaurant-card .restaurant-item .rating {
+    display: flex;
+    align-items: center;
+}
+
+.restaurant-card .restaurant-item .is-open {
+    display: grid;
+    place-content: center;
+}
+
+.restaurant-card .restaurant-item .is-open > img {
+    width: 30px;
+    height: 30px;
+}
+
+.restaurant-card .restaurant-item .actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.restaurant-card .restaurant-item .actions > div,
+.restaurant-card .restaurant-item .actions > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.restaurant-card .restaurant-item .actions > div > img {
+    width: 24px;
+    height: 24px;
+}
+
+.restaurant-card .restaurant-details {
+    display: none;
+}
+
+.restaurant-card.active .restaurant-details {
+    display: grid;
+    grid-template-columns: 1fr 20% 20%;
+    padding: .4rem;
+    background: var(--p-50);
+    border-radius: var(--rounded-md);
+    box-shadow: var(--shadow-inner);
+}
+
+.restaurant-card .restaurant-details > div {
+    color: var(--text);
+}
+
+

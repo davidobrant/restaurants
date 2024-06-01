@@ -17,7 +17,7 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @OneToOne(mappedBy = "menu")
     private Restaurant restaurant;
