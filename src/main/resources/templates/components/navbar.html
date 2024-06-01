@@ -2,7 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <body>
 <nav th:fragment="navbar(activePage)" class="navbar">
-    <div class="nav-logo"><a href="/" >Logo</a></div>
+    <div class="nav-logo">
+        <a href="/">
+            <img th:src="@{/assets/logo.png}" alt="Logo" />
+        </a>
+    </div>
     <ul sec:authorize="isAuthenticated()" class="nav-links">
         <li class="nav-link" th:classappend="${activePage == 'home'} ? 'active'">
             <a href="/">Home</a>
