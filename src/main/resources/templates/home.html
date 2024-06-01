@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -7,11 +7,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
     <nav th:replace="~{components/navbar :: navbar(activePage=${activePage})}"></nav>
     <main>
-        <h1>Home</h1>
+        <section class="intro">
+            <h1>Welcome to the Best Restaurants in Sweden</h1>
+            <p>Discover the finest dining experiences Sweden has to offer. Whether you're looking for gourmet cuisine, cozy cafés, or the best spots for traditional Swedish dishes, we've got you covered.</p>
+            <a href="/restaurants" class="btn">Explore the Best Restaurants</a>
+        </section>
+        <section class="featured">
+            <h2>Featured Cities</h2>
+            <div class="cities">
+                <div class="city">
+                    <h3>Jönköping</h3>
+                    <p>Known for its picturesque lake views, Jönköping offers a delightful mix of traditional Swedish and modern gourmet cuisine.</p>
+                    <a href="/restaurants?name=&city=J%C3%B6nk%C3%B6ping&sortDir=asc" class="btn">Explore the Best Restaurants in Jönköping</a>
+                </div>
+                <div class="city">
+                    <h3>Göteborg</h3>
+                    <p>Göteborg, or Gothenburg, is famous for its cozy cafés and seafood restaurants, perfect for enjoying a warm cup of coffee or a fresh catch.</p>
+                    <a href="/restaurants?name=&city=Göteborg&sortDir=asc" class="btn">Explore the Best Restaurants in Göteborg</a>
+                </div>
+                <div class="city">
+                    <h3>Malmö</h3>
+                    <p>Malmö's vibrant and diverse food scene boasts everything from traditional Swedish dishes to innovative international cuisine.</p>
+                    <a href="/restaurants?name=&city=Malmö&sortDir=asc" class="btn">Explore the Best Restaurants in Malmö</a>
+                </div>
+            </div>
+        </section>
     </main>
     <footer th:replace="~{components/footer :: footer}"></footer>
 </body>
