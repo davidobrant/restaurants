@@ -35,7 +35,12 @@
     justify-content: flex-end;
 }
 
+.nav-logo a {
+    display: grid;
+    place-content: center;
+}
+
 .nav-logo img {
     width: 30px;
-    height: auto;
+    aspect-ratio: 1;
 }
