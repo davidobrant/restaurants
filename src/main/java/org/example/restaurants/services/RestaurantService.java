@@ -5,6 +5,7 @@ import org.example.restaurants.exceptions.NotFoundException;
 import org.example.restaurants.repositories.RestaurantRepository;
 import org.example.restaurants.utils.Generator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,7 +22,8 @@ public class RestaurantService {
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    public List<Restaurant> getAllRestaurants(String name, String city, Boolean isOpen, Integer rating, String sortBy, String sortDir) {
+
+    public Page<Restaurant> getAllRestaurants(String name, String city, Boolean isOpen, Integer rating, String sortBy, String sortDir, int pageNumber, int pageSize) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDir), sortBy);
 
         if ("rating".equalsIgnoreCase(sortBy)) {
@@ -32,27 +34,28 @@ public class RestaurantService {
             }
         }
 
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
         if (name != null && !name.isEmpty()) {
-            return restaurantRepository.findByNameContainingIgnoreCase(name);
+            return restaurantRepository.findByNameContainingIgnoreCase(name, pageable);
         } else if (city != null && !city.isEmpty() && isOpen != null) {
             if (isOpen) {
-                return restaurantRepository.findByCityContainingIgnoreCaseAndIsOpenTrue(city, sort);
+                return restaurantRepository.findByCityContainingIgnoreCaseAndIsOpenTrue(city, pageable);
             } else {
-                return restaurantRepository.findByCityContainingIgnoreCaseAndIsOpenFalse(city, sort);
+                return restaurantRepository.findByCityContainingIgnoreCaseAndIsOpenFalse(city, pageable);
             }
         } else if (city != null && !city.isEmpty()) {
-            return restaurantRepository.findByCityContainingIgnoreCase(city, sort);
+            return restaurantRepository.findByCityContainingIgnoreCase(city, pageable);
         } else if (isOpen != null) {
             if (isOpen) {
-                return restaurantRepository.findByIsOpenTrue(sort);
+                return restaurantRepository.findByIsOpenTrue(pageable);
             } else {
-                return restaurantRepository.findByIsOpenFalse(sort);
+                return restaurantRepository.findByIsOpenFalse(pageable);
             }
         } else if (rating != null) {
-            return restaurantRepository.findByRating(rating, sort);
+            return restaurantRepository.findByRating(rating, pageable);
         } else {
-            Pageable pageable = PageRequest.of(0, 100, sort);
-            return restaurantRepository.findAll(pageable).getContent();
+            return restaurantRepository.findAll(pageable);
         }
     }
 

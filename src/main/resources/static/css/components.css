@@ -14,3 +14,23 @@
 .rating .star.empty {
     color: #d3d3d3; /* Gray color for empty stars */
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination ul {
+    display: flex;
+    gap: .4rem;
+}
+
+.pagination ul > li.active > a {
+    color: var(--text-active);
+    text-decoration: underline;
+}
+
+.pagination ul > li:hover > a {
+    color: var(--text-hover);
+}

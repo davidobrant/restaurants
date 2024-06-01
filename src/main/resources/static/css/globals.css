@@ -123,6 +123,9 @@ footer {
     font-size: .7rem;
 }
 
+ul {
+    list-style: none;
+}
 
 
 main::-webkit-scrollbar {
