@@ -15,24 +15,26 @@
     <main>
 
         <section class="filter-restaurants">
-           <form method="get" th:action="@{/restaurants}" class="filter-restaurants-form">
-               <div class="fields">
-                   <div class="filter">
-                       <input type="text" name="name" placeholder="Filter by name" th:value="${param.name}">
+            <form method="get" th:action="@{/restaurants}" class="filter-restaurants-form">
+                <input type="hidden" name="pageNumber" th:value="${pageNumber}"/>
+                <input type="hidden" name="pageSize" th:value="${page.size}"/>
+                <div class="fields">
+                    <div class="filter">
+                        <input type="text" name="name" placeholder="Filter by name" th:value="${param.name}">
                         <select name="city" id="city">
-                           <option value="" selected>Filter by city</option>
-                           <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"
-                                   th:selected="${city == param.city}"></option>
+                            <option th:value="${city}" selected disabled>Filter by city</option>
+                            <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"
+                                    th:selected="${city == param.city}"></option>
                         </select>
-                       <select name="isOpen" id="isOpen">
-                           <option value="" selected disabled>Filter by status</option>
-                           <option value="true" th:selected="${param.isOpen == true}">Open</option>
-                           <option value="false" th:selected="${param.isOpen == false}">Closed</option>
+                        <select name="isOpen" id="isOpen">
+                            <option th:value="${param.isOpen}" selected disabled>Filter by status</option>
+                            <option value="true" th:selected="${param.isOpen == true}">Open</option>
+                            <option value="false" th:selected="${param.isOpen == false}">Closed</option>
                         </select>
-                   </div>
-                   <div class="sort">
+                    </div>
+                    <div class="sort">
                         <select name="sortBy">
-                            <option value="" disabled selected>-- Sort by --</option>
+                            <option th:value="${param.sortBy}" disabled selected>-- Sort by --</option>
                             <option value="name" th:selected="${param.sortBy == 'name'}">Name</option>
                             <option value="city" th:selected="${param.sortBy == 'city'}">City</option>
                             <option value="rating" th:selected="${param.sortBy == 'rating'}">Rating</option>
@@ -41,23 +43,63 @@
                             <option value="asc" th:selected="${param.sortDir == 'asc'}">Ascending</option>
                             <option value="desc" th:selected="${param.sortDir == 'desc'}">Descending</option>
                         </select>
-                   </div>
-               </div>
-               <div class="actions">
-                   <button type="submit">Filter & Sort</button>
-               </div>
-           </form>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button type="submit">Filter & Sort</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="restaurants-results">
+            <div th:text="${page.totalElements == 0 ? 'No results found...' :
+                    page.totalElements == 1 ? 'Displaying 1 result...' :
+                    'Displaying ' + (((pageNumber * pageSize) + 1) + '-' + (((pageNumber * pageSize) + page.content.size()) < page.totalElements ? ((pageNumber * pageSize) + page.content.size()) : page.totalElements)) + ' of ' + page.totalElements + ' results...'}">
+            </div>
+        </section>
+
+
+
+        <section class="pagination">
+            <ul>
+                <li th:if="${page.hasPrevious()}">
+                    <a th:href="@{/restaurants(pageNumber=${pageNumber - 1}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" aria-label="Previous">&laquo;</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == pageNumber} ? 'active'">
+                    <a th:href="@{/restaurants(pageNumber=${i}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" th:text="${i + 1}">1</a>
+                </li>
+                <li th:if="${page.hasNext()}">
+                    <a th:href="@{/restaurants(pageNumber=${pageNumber + 1}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" aria-label="Next">&raquo;</a>
+                </li>
+            </ul>
         </section>
 
         <section class="restaurants-container">
-            <div th:unless="${restaurants.empty}" th:each="restaurant : ${restaurants}">
+            <div th:unless="${page.empty}" th:each="restaurant : ${restaurants}">
                 <div th:insert="~{components/restaurants :: restaurant-card(restaurant=${restaurant})}"></div>
             </div>
 
-            <div th:if="${restaurants.empty}" class="no-restaurants-container">
+            <div th:if="${page.empty}" class="no-restaurants-container">
                 <p>No restaurants to display...</p>
             </div>
         </section>
+
+        <section class="pagination">
+            <ul>
+                <li th:if="${page.hasPrevious()}">
+                    <a th:href="@{/restaurants(pageNumber=${pageNumber - 1}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" aria-label="Previous">&laquo;</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                    th:classappend="${i == pageNumber} ? 'active'">
+                    <a th:href="@{/restaurants(pageNumber=${i}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" th:text="${i + 1}">1</a>
+                </li>
+                <li th:if="${page.hasNext()}">
+                    <a th:href="@{/restaurants(pageNumber=${pageNumber + 1}, size=${page.size}, name=${param.name}, city=${param.city}, isOpen=${param.isOpen}, sortBy=${param.sortBy}, sortDir=${param.sortDir})}" aria-label="Next">&raquo;</a>
+                </li>
+            </ul>
+        </section>
+
     </main>
     <footer th:replace="~{components/footer :: footer}"></footer>
 </body>

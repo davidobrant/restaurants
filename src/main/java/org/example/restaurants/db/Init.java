@@ -31,9 +31,9 @@ public class Init implements CommandLineRunner {
     }
 
     private void generateDummyData() {
-        if (restaurantRepository.count() > 20) return;
+        if (restaurantRepository.count() > 50) return;
 
-        restaurantRepository.saveAll(generator.generateRestaurants(40));
+        restaurantRepository.saveAll(generator.generateRestaurants(100));
 
     }
 
