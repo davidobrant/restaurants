@@ -1,5 +1,8 @@
 package org.example.restaurants.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.restaurants.entities.OpeningHour;
 import org.example.restaurants.entities.Restaurant;
 import org.example.restaurants.exceptions.NotFoundException;
 import org.example.restaurants.services.RestaurantService;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -25,14 +29,14 @@ public class RestaurantsController {
     public String getRestaurantsPage(@RequestParam(required = false) String name,
                                      @RequestParam(required = false) String city,
                                      @RequestParam(required = false) Boolean isOpen,
-                                     @RequestParam(required = false) Integer rating,
                                      @RequestParam(required = false, defaultValue = "name") String sortBy,
                                      @RequestParam(required = false, defaultValue = "asc") String sortDir,
                                      @RequestParam(defaultValue = "0") Integer pageNumber,
                                      @RequestParam(defaultValue = "20") Integer pageSize,
                                      Model model) {
 
-        Page<Restaurant> restaurantsByPage = restaurantService.getAllRestaurants(name, city, isOpen, rating, sortBy, sortDir, pageNumber, pageSize);
+        Page<Restaurant> restaurantsByPage = restaurantService.getAllRestaurants(name, city, isOpen, sortBy, sortDir, pageNumber, pageSize);
+
         model.addAttribute("activePage", "restaurants");
         model.addAttribute("restaurants", restaurantsByPage.getContent());
         model.addAttribute("page", restaurantsByPage);
@@ -51,8 +55,12 @@ public class RestaurantsController {
             if (restaurant == null) {
                 throw new NotFoundException("Restaurant not found...");
             }
+
+            List<OpeningHour> openingHours = restaurantService.getOpeningHoursForRestaurant(id);
+
             model.addAttribute("restaurant", restaurant);
             model.addAttribute("title", restaurant.getName() + " | Restaurant Details");
+            model.addAttribute("openingHours", openingHours);
 
             return "restaurant";
         } catch (IllegalArgumentException e) {

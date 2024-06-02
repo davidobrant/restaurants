@@ -45,6 +45,8 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+
+    --scrollbar-width: 10px;
 }
 
 html {
@@ -74,7 +76,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 4rem;
+    padding: 2rem 4rem 2rem calc(4rem + var(--scrollbar-width));
     overflow-y: scroll;
     gap: 1rem;
     width: 100%;
@@ -129,7 +131,7 @@ ul {
 
 
 main::-webkit-scrollbar {
-    width: 8px;  /* Width of the scrollbar */
+    width: var(-scrollbar-width);
 }
 
 main::-webkit-scrollbar-thumb {
