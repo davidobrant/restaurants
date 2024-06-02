@@ -68,4 +68,12 @@ public class Restaurant {
         return isOpen();
     }
 
+    public OpeningHour getTodaysOpeningHour() {
+        DayOfWeek currentDayOfWeek = LocalDate.now().getDayOfWeek();
+
+        return openingHours.stream()
+                .filter(hour -> hour.getDayOfWeek().equalsIgnoreCase(currentDayOfWeek.toString()))
+                .findFirst()
+                .orElse(null);
+    }
 }

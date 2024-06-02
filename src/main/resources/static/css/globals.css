@@ -23,9 +23,9 @@
     --text-hover: #f59e0b;
 
     --btn-active: #10b981;
-    --btn-hover: #f59e0b;
+    --btn-hover: #34d399;
 
-    --btn-border: 1px solid var(--p-300);
+    --btn-border: 1px solid var(--p-500);
     --btn-border-hover: 1px solid var(--p-700);
 
     --danger: #dc2626;

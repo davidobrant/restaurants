@@ -13,16 +13,21 @@
     gap: 1rem;
 }
 
-.filter-restaurants-form .fields {
+.filter-restaurants-form .filter {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: space-around;
     gap: 1rem;
 }
 
-.filter-restaurants-form .fields > .filter,
-.filter-restaurants-form .fields > .sort {
+.filter-restaurants-form .filter-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.filter-restaurants-form .filter-footer > .sort {
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -32,9 +37,9 @@
 .filter-restaurants-form .actions {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: .4rem;
 }
-
 
 .restaurants-results {
     font-size: 0.8rem;
@@ -49,14 +54,6 @@
     align-items: stretch;
 }
 
-.restaurants-table {
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: space-between;
-}
-
 .restaurant-card {
     box-shadow: var(--shadow-md);
     border-radius: var(--rounded-lg);
@@ -67,11 +64,21 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    --w-rating: 120px;
+    --w-hours: 100px;
+    --w-actions: 100px;
+}
+
+.restaurant-card * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .restaurant-card .restaurant-item {
     display: grid;
-    grid-template-columns: 1fr 20% 20% 60px 80px;
+    grid-template-columns: 1fr 20% var(--w-rating) var(--w-hours) var(--w-actions);
     align-items: center;
 }
 
@@ -105,9 +112,17 @@
     cursor: pointer;
 }
 
-.restaurant-card .restaurant-item .actions > div > img {
+.restaurant-card .restaurant-item .actions img {
     width: 24px;
     height: 24px;
+}
+
+.restaurant-card.active .restaurant-item {
+    grid-template-columns: 1fr var(--w-rating) var(--w-hours) var(--w-actions);
+}
+
+.restaurant-card.active .restaurant-item > .city {
+    display: none;
 }
 
 .restaurant-card .restaurant-details {
@@ -116,11 +131,69 @@
 
 .restaurant-card.active .restaurant-details {
     display: grid;
-    grid-template-columns: 1fr 20% 20%;
+    grid-template-columns: 1fr calc(20% + var(--w-rating)) var(--w-hours) var(--w-actions);
     padding: .4rem;
     background: var(--p-50);
     border-radius: var(--rounded-md);
     box-shadow: var(--shadow-inner);
+    margin: -0.5rem;
+    font-size: 0.9rem;
+}
+
+.restaurant-details > div {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.restaurant-details h5 {
+    margin: .2rem 0;
+    font-weight: bold;
+}
+
+.restaurant-details > .contact > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.restaurant-details > .contact > div a {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.restaurant-details > .contact > div img {
+    height: 1rem;
+    width: 1rem;
+    cursor: pointer;
+    margin-right: .4rem;
+}
+
+.restaurant-details > .location {}
+
+.restaurant-details > .hours {
+    align-items: center;
+}
+
+.restaurant-details > .actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding-right: .4rem;
+}
+
+.restaurant-details > .actions a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+}
+
+.restaurant-details > .actions img {
+    height: 2rem;
+    width: 2rem;
 }
 
 .restaurant-card .restaurant-details > div {

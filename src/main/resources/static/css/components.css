@@ -34,3 +34,11 @@
 .pagination ul > li:hover > a {
     color: var(--text-hover);
 }
+
+.btn-standard {
+    background: var(--p-200);
+}
+
+.btn-standard:hover {
+    background: var(--p-100);
+}

@@ -10,7 +10,7 @@
 >
     <div class="restaurant-item">
         <div th:text="${restaurant.name}"></div>
-        <div th:text="${restaurant.city}"></div>
+        <div class="city" th:text="${restaurant.city}"></div>
         <div class="rating">
             <span th:each="star : ${#numbers.sequence(1, 5)}"
                   th:classappend="${star <= restaurant.rating} ? 'fa fa-star star' : 'fa fa-star star empty'"></span>
@@ -24,16 +24,40 @@
                 <img th:src="@{/assets/info-blue.png}" alt="info">
             </div>
             <a th:href="@{'/restaurants/' + ${restaurant.id}}">
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 30 30">
-                    <path d="M 25.980469 2.9902344 A 1.0001 1.0001 0 0 0 25.869141 3 L 20 3 A 1.0001 1.0001 0 1 0 20 5 L 23.585938 5 L 13.292969 15.292969 A 1.0001 1.0001 0 1 0 14.707031 16.707031 L 25 6.4140625 L 25 10 A 1.0001 1.0001 0 1 0 27 10 L 27 4.1269531 A 1.0001 1.0001 0 0 0 25.980469 2.9902344 z M 6 7 C 4.9069372 7 4 7.9069372 4 9 L 4 24 C 4 25.093063 4.9069372 26 6 26 L 21 26 C 22.093063 26 23 25.093063 23 24 L 23 14 L 23 11.421875 L 21 13.421875 L 21 16 L 21 24 L 6 24 L 6 9 L 14 9 L 16 9 L 16.578125 9 L 18.578125 7 L 16 7 L 14 7 L 6 7 z"></path>
-                </svg>
+                <img th:src="@{/assets/open-link.png}" alt="open link">
             </a>
         </div>
     </div>
     <div class="restaurant-details">
-        <div th:text="${restaurant.street}"></div>
-        <div th:text="${restaurant.zip}"></div>
-        <div th:text="${restaurant.phone}"></div>
+        <div class="contact">
+            <h5>Contact</h5>
+            <div>
+                <a th:href="@{'tel:' + ${restaurant.phone}}"><img th:src="@{/assets/phone-clean.png}" alt="phone"></a>
+                <span th:text="${restaurant.phone}"></span>
+            </div>
+            <div>
+                <a th:href="@{'mailto:' + ${restaurant.email}}"><img th:src="@{/assets/mail-clean.png}" alt="mail"></a>
+                <span th:text="${restaurant.email}"></span>
+            </div>
+        </div>
+        <div class="location">
+            <h5>Location</h5>
+            <div th:text="${restaurant.street}"></div>
+            <div th:text="${restaurant.zip + ' ' + restaurant.city}"></div>
+        </div>
+        <div class="hours">
+            <h5>Today</h5>
+            <div th:if="${restaurant.getTodaysOpeningHour() != null}">
+                <div th:if="${restaurant.getTodaysOpeningHour().openTime == null or restaurant.getTodaysOpeningHour().closeTime == null}">Closed</div>
+                <div th:if="${restaurant.getTodaysOpeningHour().openTime != null and restaurant.getTodaysOpeningHour().closeTime != null}" th:text="${restaurant.getTodaysOpeningHour().openTime + ' - ' + restaurant.getTodaysOpeningHour().closeTime}"></div>
+            </div>
+        </div>
+        <div class="actions">
+            <a th:href="@{'/restaurants/' + ${restaurant.id} + '#menu'}">
+            <img th:src="@{/assets/menu.png}" alt="menu-link">
+            <button>Menu</button>
+            </a>
+        </div>
     </div>
 </div>
 

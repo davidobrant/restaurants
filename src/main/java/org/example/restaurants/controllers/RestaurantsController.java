@@ -31,6 +31,8 @@ public class RestaurantsController {
 
         Page<Restaurant> restaurantsByPage = restaurantService.getAllRestaurants(name, city, isOpen, sortBy, sortDir, pageNumber, pageSize);
 
+        System.out.println();
+
         model.addAttribute("activePage", "restaurants");
         model.addAttribute("restaurants", restaurantsByPage.getContent());
         model.addAttribute("page", restaurantsByPage);

@@ -37,7 +37,7 @@ public class Generator {
         restaurant.setRating(rating());
         restaurant.setCity(city());
         restaurant.setStreet(faker.address().streetAddress());
-        restaurant.setZip(faker.address().zipCode());
+        restaurant.setZip(zip());
         restaurant.setPhone(phone());
         restaurant.setEmail(faker.internet().emailAddress());
         restaurant.setOpeningHours(generateOpeningHours(restaurant));
@@ -94,6 +94,11 @@ public class Generator {
                 "Jönköping"
         };
         return cities[random.nextInt(cities.length)];
+    }
+
+    private String zip() {
+        var zip = faker.address().zipCode();
+        return zip.substring(0,3) + " " + zip.substring(3);
     }
 
     private String phone() {
