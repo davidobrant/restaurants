@@ -87,4 +87,5 @@ public class RestaurantService {
                 .map(Restaurant::getCity)
                 .collect(Collectors.toSet());
     }
+
 }
