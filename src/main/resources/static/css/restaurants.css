@@ -118,9 +118,10 @@
 }
 
 .restaurant-card.active .restaurant-item {
-    grid-template-columns: 1fr var(--w-rating) var(--w-hours) var(--w-actions);
+    grid-template-columns: 1fr var(--w-hours) var(--w-actions);
 }
 
+.restaurant-card.active .restaurant-item > .rating,
 .restaurant-card.active .restaurant-item > .city {
     display: none;
 }
@@ -131,7 +132,7 @@
 
 .restaurant-card.active .restaurant-details {
     display: grid;
-    grid-template-columns: 1fr calc(20% + var(--w-rating)) var(--w-hours) var(--w-actions);
+    grid-template-columns: 1fr 20% var(--w-rating) var(--w-hours) var(--w-actions);
     padding: .4rem;
     background: var(--p-50);
     border-radius: var(--rounded-md);
@@ -170,6 +171,20 @@
 }
 
 .restaurant-details > .location {}
+
+.restaurant-details > .rating > stars {
+    display: flex;
+}
+
+.restaurant-details > .rating > .text {
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+}
+
+.restaurant-details > .rating > .text > span {
+    font-size: 0.7rem;
+}
 
 .restaurant-details > .hours {
     align-items: center;

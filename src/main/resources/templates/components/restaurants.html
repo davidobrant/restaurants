@@ -45,6 +45,18 @@
             <div th:text="${restaurant.street}"></div>
             <div th:text="${restaurant.zip + ' ' + restaurant.city}"></div>
         </div>
+        <div class="rating">
+            <h5>Rating</h5>
+            <div class="stars">
+                <div th:each="star : ${#numbers.sequence(1, 5)}"
+                      th:classappend="${star <= restaurant.rating} ? 'fa fa-star star' : 'fa fa-star star empty'">
+                </div>
+            </div>
+            <div class="text">
+                <div th:text="${#numbers.formatDecimal(restaurant.rating, 0, 1)}" class="text"><span th:text="' / 5'"></span></div>
+                <span th:text="' / 5'"></span>
+            </div>
+        </div>
         <div class="hours">
             <h5>Today</h5>
             <div th:if="${restaurant.getTodaysOpeningHour() != null}">

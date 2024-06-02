@@ -22,5 +22,12 @@ document.addEventListener('click', function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.filter-restaurants-form');
+    const filters = form.querySelectorAll('input[name="name"], select[name="city"], select[name="isOpen"]');
 
+    filters.forEach(filter => {
+        filter.addEventListener('change', function () {
+            form.querySelector('input[name="pageNumber"]').value = 0;
+        });
+    });
 })
