@@ -12,7 +12,6 @@ import java.util.Random;
 @Component
 public class Init implements CommandLineRunner {
 
-    private Random random;
     private Generator generator;
 
     @Autowired
@@ -31,6 +30,7 @@ public class Init implements CommandLineRunner {
     }
 
     private void generateDummyData() {
+//        restaurantRepository.deleteAll();
         if (restaurantRepository.count() > 50) return;
 
         restaurantRepository.saveAll(generator.generateRestaurants(100));

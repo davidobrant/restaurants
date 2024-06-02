@@ -16,8 +16,8 @@
                   th:classappend="${star <= restaurant.rating} ? 'fa fa-star star' : 'fa fa-star star empty'"></span>
         </div>
         <div class="is-open">
-            <img th:src="@{${restaurant.open} ? '/assets/open.png' : '/assets/closed.png'}"
-                 th:alt="${restaurant.open} ? 'Open' : 'Closed'">
+            <img th:src="@{${restaurant.isOpen()} ? '/assets/open.png' : '/assets/closed.png'}"
+                 th:alt="${restaurant.isOpen()} ? 'Open' : 'Closed'">
         </div>
         <div class="actions">
             <div>

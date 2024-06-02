@@ -16,13 +16,4 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     Page<Restaurant> findByRating(Integer rating, Pageable pageable);
 
-    Page<Restaurant> findByIsOpenTrue(Pageable pageable);
-
-    Page<Restaurant> findByIsOpenFalse(Pageable pageable);
-
-    Page<Restaurant> findByCityContainingIgnoreCaseAndIsOpenTrue(String city, Pageable pageable);
-
-    Page<Restaurant> findByCityContainingIgnoreCaseAndIsOpenFalse(String city, Pageable pageable);
-
-
 }

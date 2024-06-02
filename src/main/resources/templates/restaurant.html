@@ -12,10 +12,18 @@
 <nav th:replace="~{components/navbar :: navbar(activePage=${activePage})}"></nav>
 <main>
     <h1 th:text="${restaurant.name}">Restaurant Name</h1>
-    <p th:text="${restaurant.description}">Description</p>
     <p th:text="${restaurant.city}">City</p>
     <p th:text="${restaurant.rating}">Rating</p>
-    <a th:href="'tel:' + ${restaurant.phone}">Call</a>
+    <p th:text="${restaurant.isOpen ? 'Open' : 'Closed'}">Status</p>
+
+    <h2>Opening Hours:</h2>
+    <ul>
+        <li th:each="openingHour : ${openingHours}">
+            <span th:text="${openingHour.dayOfWeek}">Day of Week</span>:
+            <span th:text="${openingHour.openTime}">Open Time</span> -
+            <span th:text="${openingHour.closeTime}">Close Time</span>
+        </li>
+    </ul>
 </main>
 <footer th:replace="~{components/footer :: footer}"></footer>
 </body>

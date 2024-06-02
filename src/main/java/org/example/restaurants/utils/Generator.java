@@ -1,10 +1,12 @@
 package org.example.restaurants.utils;
 
 import com.github.javafaker.Faker;
+import org.example.restaurants.entities.OpeningHour;
 import org.example.restaurants.entities.Restaurant;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -29,18 +31,51 @@ public class Generator {
     }
 
     private Restaurant generateRestaurant() {
-        var restaurant = new Restaurant();
+        Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurantName());
-        restaurant.setDescription("Avslappnat och bekvämt.");
+        restaurant.setDescription(faker.chuckNorris().fact());
         restaurant.setRating(rating());
         restaurant.setCity(city());
         restaurant.setStreet(faker.address().streetAddress());
         restaurant.setZip(faker.address().zipCode());
         restaurant.setPhone(phone());
         restaurant.setEmail(faker.internet().emailAddress());
-        restaurant.setOpen(random.nextBoolean());
-        restaurant.setMenu(null);
+        restaurant.setOpeningHours(generateOpeningHours(restaurant));
         return restaurant;
+    }
+
+    private List<OpeningHour> generateOpeningHours(Restaurant restaurant) {
+        List<OpeningHour> openingHours = new ArrayList<>();
+        String[] daysOfWeek = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+        for (String day : daysOfWeek) {
+            OpeningHour openingHour = new OpeningHour();
+            openingHour.setRestaurant(restaurant);
+            openingHour.setDayOfWeek(day);
+
+            if (day.equals("Sunday") && random.nextDouble() < 0.25) {
+                openingHour.setOpenTime(null);
+                openingHour.setCloseTime(null);
+            } else if (isWeekday(day) && random.nextDouble() < 0.20) {
+                openingHour.setOpenTime(generateRandomTime(15, 16)); // Opens between 3 PM and 4 PM
+                openingHour.setCloseTime(generateRandomTime(18, 23)); // Closes between 6 PM and 11 PM
+            } else {
+                openingHour.setOpenTime(generateRandomTime(6, 10)); // Opens between 6 AM and 10 AM
+                openingHour.setCloseTime(generateRandomTime(18, 23)); // Closes between 6 PM and 11 PM
+            }
+
+            openingHours.add(openingHour);
+        }
+        return openingHours;
+    }
+
+    private boolean isWeekday(String day) {
+        return !day.equals("Saturday") && !day.equals("Sunday");
+    }
+
+    private LocalTime generateRandomTime(int startHour, int endHour) {
+        int hour = random.nextInt(endHour - startHour + 1) + startHour;
+        int minute = random.nextInt(4) * 15;
+        return LocalTime.of(hour, minute);
     }
 
     private String restaurantName() {
