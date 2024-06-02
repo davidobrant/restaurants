@@ -94,6 +94,7 @@ public class RestaurantService {
                 .collect(Collectors.toSet());
     }
 
+
     public List<OpeningHour> getOpeningHoursForRestaurant(Long restaurantId) {
         return openingHourRepository.findByRestaurantId(restaurantId);
     }
@@ -101,4 +102,5 @@ public class RestaurantService {
     public OpeningHour saveOpeningHour(OpeningHour openingHour) {
         return openingHourRepository.save(openingHour);
     }
+
 }

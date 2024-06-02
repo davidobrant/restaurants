@@ -8,7 +8,7 @@
 
 .navbar > * {
     display: flex;
-    align items: center;
+    align-items: center;
 }
 
 .nav-links {
@@ -33,4 +33,14 @@
 
 .nav-auth {
     justify-content: flex-end;
+}
+
+.nav-logo a {
+    display: grid;
+    place-content: center;
+}
+
+.nav-logo img {
+    width: 30px;
+    aspect-ratio: 1;
 }
