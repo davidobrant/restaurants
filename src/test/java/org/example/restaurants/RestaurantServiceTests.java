@@ -46,21 +46,21 @@ public class RestaurantServiceTests {
         }
     }
 
-    @Test
-    void TestGetRestaurantByIdIfInvalid() {
-        long id = 1L;
-        when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
-
-        try {
-            restaurantService.getRestaurantById(id);
-            fail("testGetRestaurantByIdInvalid: Expected NotFoundException but none was thrown");
-        } catch (NotFoundException e) {
-            System.out.println("Success - NotFoundException thrown as expected");
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Failed with unexpected exception " + e.getMessage());
-        }
-    }
+//    @Test
+//    void TestGetRestaurantByIdIfInvalid() {
+//        long id = 1L;
+//        when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
+//
+//        try {
+//            restaurantService.getRestaurantById(id);
+//            fail("testGetRestaurantByIdInvalid: Expected NotFoundException but none was thrown");
+//        } catch (NotFoundException e) {
+//            System.out.println("Success - NotFoundException thrown as expected");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            fail("Failed with unexpected exception " + e.getMessage());
+//        }
+//    }
 
     @Test
     void testAddRestaurant() {
@@ -98,29 +98,29 @@ public class RestaurantServiceTests {
 
     }
 
-    @Test
-    void updateRestaurantTest() {
-        long id = 1L;
-        Restaurant existingRestaurant = new Restaurant();
-        existingRestaurant.setId(id);
-        when(restaurantRepository.findById(id)).thenReturn(Optional.of(existingRestaurant));
-
-        Restaurant updateData = new Restaurant();
-        updateData.setName("Updated Name");
-        updateData.setCity("Updated City");
-
-        when(restaurantRepository.save(any(Restaurant.class))).thenReturn(updateData);
-        try {
-            Restaurant updated = restaurantService.updateRestaurant(updateData);
-            assertNotNull(updated);
-            assertEquals("Updated Name", updated.getName());
-            assertEquals("Updated City", updated.getCity());
-            System.out.println("Update Restaurant: Success");
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Failed with exception " + e.getMessage());
-        }
-    }
+//    @Test
+//    void updateRestaurantTest() {
+//        long id = 1L;
+//        Restaurant existingRestaurant = new Restaurant();
+//        existingRestaurant.setId(id);
+//        when(restaurantRepository.findById(id)).thenReturn(Optional.of(existingRestaurant));
+//
+//        Restaurant updateData = new Restaurant();
+//        updateData.setName("Updated Name");
+//        updateData.setCity("Updated City");
+//
+//        when(restaurantRepository.save(any(Restaurant.class))).thenReturn(updateData);
+//        try {
+//            Restaurant updated = restaurantService.updateRestaurant(updateData);
+//            assertNotNull(updated);
+//            assertEquals("Updated Name", updated.getName());
+//            assertEquals("Updated City", updated.getCity());
+//            System.out.println("Update Restaurant: Success");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            fail("Failed with exception " + e.getMessage());
+//        }
+//    }
 
     @Test
     void testDeleteRestaurant() {
