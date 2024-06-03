@@ -1,8 +1,10 @@
 package org.example.restaurants.controllers;
 
+import org.example.restaurants.entities.Menu;
 import org.example.restaurants.entities.OpeningHour;
 import org.example.restaurants.entities.Restaurant;
 import org.example.restaurants.exceptions.NotFoundException;
+import org.example.restaurants.services.MenuService;
 import org.example.restaurants.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ public class RestaurantsController {
 
     @Autowired
     RestaurantService restaurantService;
+    @Autowired
+    MenuService menuService;
 
     @GetMapping
     public String getRestaurantsPage(@RequestParam(required = false) String name,
@@ -30,8 +34,6 @@ public class RestaurantsController {
                                      Model model) {
 
         Page<Restaurant> restaurantsByPage = restaurantService.getAllRestaurants(name, city, isOpen, sortBy, sortDir, pageNumber, pageSize);
-
-        System.out.println();
 
         model.addAttribute("activePage", "restaurants");
         model.addAttribute("restaurants", restaurantsByPage.getContent());
@@ -52,11 +54,13 @@ public class RestaurantsController {
                 throw new NotFoundException("Restaurant not found...");
             }
 
+            Menu menu = menuService.getMenuByRestaurant(restaurant);
             List<OpeningHour> openingHours = restaurantService.getOpeningHoursForRestaurant(id);
 
             model.addAttribute("restaurant", restaurant);
-            model.addAttribute("title", restaurant.getName() + " | Restaurant Details");
+            model.addAttribute("menu", menu);
             model.addAttribute("openingHours", openingHours);
+            model.addAttribute("title", restaurant.getName() + " | Restaurant Details");
 
             return "restaurant";
         } catch (IllegalArgumentException e) {

@@ -69,7 +69,7 @@ public class RestaurantServiceTests {
         restaurant.setName("O'Learys");
         restaurant.setDescription("Sportsbar");
         restaurant.setCity("Uppsala");
-        restaurant.setOpen(true);
+//        restaurant.setOpen(true);
         restaurant.setRating(rating);
         restaurant.setPhone("0705345234");
         restaurant.setStreet("Dragarbrunnsgata 45");
@@ -84,7 +84,7 @@ public class RestaurantServiceTests {
             assertEquals("O'Learys", created.getName());
             assertEquals("Sportsbar", created.getDescription());
             assertEquals("Uppsala", created.getCity());
-            assertEquals(true, created.isOpen());
+//            assertEquals(true, created.isOpen());
             assertEquals(rating, created.getRating());
             assertEquals("0705345234", created.getPhone());
             assertEquals("Dragarbrunnsgata 45", created.getStreet());

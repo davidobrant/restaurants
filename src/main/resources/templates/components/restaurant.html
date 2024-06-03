@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+
+    <div th:fragment="location(restaurant)" class="info-card">
+
+        <div>
+            <h4>Location</h4>
+            <div th:text="${restaurant.street}"></div>
+            <div th:text="${restaurant.zip + ' ' + restaurant.city}"></div>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <div th:text="${restaurant.phone}"></div>
+            <div th:text="${restaurant.email}"></div>
+        </div>
+    </div>
+
+    <div th:fragment="opening-hours(openingHours)" class="opening-hours-card">
+        <h2>Opening Hours</h2>
+        <ul>
+            <li th:each="openingHour : ${openingHours}">
+                    <span th:text="${openingHour.dayOfWeek}" class="day">Day of Week</span>
+                    <div>
+                        <span th:text="${openingHour.openTime}">Open Time</span>
+                        <span>-</span>
+                        <span th:text="${openingHour.closeTime}" class="close">Close Time</span>
+                    </div>
+            </li>
+        </ul>
+    </div>
+
+    <div th:fragment="menu-card(menu)" class="menu-card">
+        <div class="title">
+            <span class="left">
+                <img th:src="@{/assets/decor/right.png}" alt="decor">
+            </span>
+            <h2>Menu</h2>
+            <span class="right">
+                <img th:src="@{/assets/decor/left.png}" alt="decor">
+            </span>
+        </div>
+        <div
+                th:each="section : ${menu.sections}"
+                class="section"
+                th:classappend="${section.name == 'Drinks' ? 'drinks' : ''}"
+        >
+            <img class="section-decor" th:src="@{/assets/decor/menu-section.png}" alt="decor">
+            <h3 th:text="${section.name}" class="section-title">Section Name</h3>
+            <ul>
+                <li th:each="item : ${section.items}">
+
+                    <span th:text="${item.name}">Item Name</span>
+                    <span th:text="' - ' + ${item.description}" class="item-description">Item Description</span>
+                    <span class="dots"></span> :
+                    <span th:text="'€ ' + ${item.price}">Item Price</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

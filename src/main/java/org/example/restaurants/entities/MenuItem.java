@@ -3,22 +3,22 @@ package org.example.restaurants.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Menu {
+public class MenuItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(mappedBy = "menu")
-    private Restaurant restaurant;
+    private String name;
+    private String description;
+    private Double price;
 
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuSection> sections;
+    @ManyToOne
+    @JoinColumn(name = "section_id")
+    private MenuSection section;
 }

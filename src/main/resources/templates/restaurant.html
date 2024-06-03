@@ -7,23 +7,36 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title th:text="${title}">Restaurant</title>
     <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/restaurant.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <nav th:replace="~{components/navbar :: navbar(activePage=${activePage})}"></nav>
 <main>
     <h1 th:text="${restaurant.name}">Restaurant Name</h1>
-    <p th:text="${restaurant.city}">City</p>
-    <p th:text="${restaurant.rating}">Rating</p>
-    <p th:text="${restaurant.isOpen ? 'Open' : 'Closed'}">Status</p>
+    <h3 th:text="${restaurant.description}" class="description">Description</h3>
+    <div class="rating">
+        <div class="stars">
+            <div th:each="star : ${#numbers.sequence(1, 5)}"
+                 th:classappend="${star <= restaurant.rating} ? 'fa fa-star star' : 'fa fa-star star empty'">
+            </div>
+        </div>
+    </div>
 
-    <h2>Opening Hours:</h2>
-    <ul>
-        <li th:each="openingHour : ${openingHours}">
-            <span th:text="${openingHour.dayOfWeek}">Day of Week</span>:
-            <span th:text="${openingHour.openTime}">Open Time</span> -
-            <span th:text="${openingHour.closeTime}">Close Time</span>
-        </li>
-    </ul>
+    <div class="info">
+        <div th:replace="~{components/restaurant :: location(restaurant=${restaurant})}">Location</div>
+        <div th:replace="~{components/restaurant :: opening-hours(openingHours=${openingHours})}">Opening Hours</div>
+    </div>
+
+    <section class="menu">
+        <div th:replace="~{components/restaurant :: menu-card(menu=${menu})}"></div>
+    </section>
+
+    <div class="contact">
+        <a th:href="@{'tel:' + ${restaurant.phone}}"><img th:src="@{/assets/call.png}" alt="call"></a>
+        <div>Call and place order</div>
+    </div>
+
 </main>
 <footer th:replace="~{components/footer :: footer}"></footer>
 </body>

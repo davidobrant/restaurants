@@ -65,9 +65,10 @@
     flex-direction: column;
     gap: 1rem;
 
+    --w-location: 25%;
     --w-rating: 120px;
     --w-hours: 100px;
-    --w-actions: 100px;
+    --w-actions: 80px;
 }
 
 .restaurant-card * {
@@ -78,7 +79,7 @@
 
 .restaurant-card .restaurant-item {
     display: grid;
-    grid-template-columns: 1fr 20% var(--w-rating) var(--w-hours) var(--w-actions);
+    grid-template-columns: 1fr var(--w-location) var(--w-rating) var(--w-hours) var(--w-actions);
     align-items: center;
 }
 
@@ -132,7 +133,7 @@
 
 .restaurant-card.active .restaurant-details {
     display: grid;
-    grid-template-columns: 1fr 20% var(--w-rating) var(--w-hours) var(--w-actions);
+    grid-template-columns: 1fr var(--w-location) var(--w-rating) var(--w-hours) var(--w-actions);
     padding: .4rem;
     background: var(--p-50);
     border-radius: var(--rounded-md);
@@ -201,9 +202,17 @@
 .restaurant-details > .actions a {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: .4rem;
+}
+
+.restaurant-details > .actions a > button {
+    background: var(--b-300);
+}
+
+.restaurant-details > .actions a:hover > button {
+    background: var(--b-200);
 }
 
 .restaurant-details > .actions img {

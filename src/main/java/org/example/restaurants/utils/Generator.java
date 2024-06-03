@@ -1,8 +1,7 @@
 package org.example.restaurants.utils;
 
 import com.github.javafaker.Faker;
-import org.example.restaurants.entities.OpeningHour;
-import org.example.restaurants.entities.Restaurant;
+import org.example.restaurants.entities.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,12 +21,28 @@ public class Generator {
         this.random = new Random();
     }
 
+    /* ----- Restaurant ----- */
     public List<Restaurant> generateRestaurants(int amount) {
         var list = new ArrayList<Restaurant>();
         for (int i = 0; i < amount; i++) {
             list.add(generateRestaurant());
         }
+        list.add(tayyabDominos());
         return list;
+    }
+
+    private Restaurant tayyabDominos() {
+        var restaurant = new Restaurant();
+        restaurant.setName("Tayyab's Awesome Dominos");
+        restaurant.setDescription(faker.chuckNorris().fact());
+        restaurant.setRating(5.0);
+        restaurant.setCity("EVERYWHERE");
+        restaurant.setStreet(faker.address().streetAddress());
+        restaurant.setZip(zip());
+        restaurant.setPhone(phone());
+        restaurant.setEmail("tayyab@dominos.com");
+        restaurant.setOpeningHours(generateOpeningHours(restaurant));
+        return restaurant;
     }
 
     private Restaurant generateRestaurant() {
@@ -41,6 +56,7 @@ public class Generator {
         restaurant.setPhone(phone());
         restaurant.setEmail(faker.internet().emailAddress());
         restaurant.setOpeningHours(generateOpeningHours(restaurant));
+        restaurant.setMenu(generateMenu());
         return restaurant;
     }
 
@@ -79,7 +95,23 @@ public class Generator {
     }
 
     private String restaurantName() {
-        return faker.company().name();
+        String[] suffix = {
+                "Restaurant",
+                "Pub",
+                "Pub & Grill",
+                "Gatukök",
+                "Restaurant & Pub",
+                "Nightclub",
+                "Bed & Breakfast",
+                "Diner",
+                "Pizzeria",
+                "Bar",
+                "Bar & Grill",
+                "Hotel & Bar",
+        };
+
+        var name = generateRandomIdentifier() + " " + generateRandomIdentifier();
+        return name + "'s " + suffix[random.nextInt(suffix.length)];
     }
 
     private Double rating() {
@@ -104,15 +136,92 @@ public class Generator {
     private String phone() {
         StringBuilder phone = new StringBuilder();
 
-        phone.append("+467");
+        phone.append("+46 (0)7");
 
         for (int i = 0; i < 8; i++) {
+            if (i == 2) {
+                phone.append(" - ");
+            }
+            if (i == 5) {
+                phone.append(" ");
+            }
             phone.append(random.nextInt(10));
         }
 
         return phone.toString();
     }
 
+
+    /* --x-- Restaurant --x-- */
+    /* ----- Menu ----- */
+
+    private Menu generateMenu() {
+        var menu = new Menu();
+
+        List<MenuSection> sections = new ArrayList<>();
+
+        sections.add(generateMenuSection("Starters"));
+        sections.add(generateMenuSection("Main Dishes"));
+        sections.add(generateMenuSection("Desserts"));
+        sections.add(generateMenuSection("Drinks"));
+
+        menu.setSections(sections);
+
+        return menu;
+    }
+
+    private MenuSection generateMenuSection(String sectionName) {
+        var section = new MenuSection();
+        section.setName(sectionName);
+
+        List<MenuItem> items = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            if (sectionName.equalsIgnoreCase("Drinks")) {
+               items.add(generateMenuItemDrink());
+               continue;
+            }
+            items.add(generateMenuItem());
+        }
+
+        section.setItems(items);
+
+        return section;
+    }
+
+    private MenuItem generateMenuItem() {
+        var item = new MenuItem();
+        item.setName(faker.food().dish());
+        item.setDescription(faker.lorem().sentence(10));
+        item.setPrice(BigDecimal.valueOf(random.nextDouble(5, 30)).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        return item;
+    }
+
+    private MenuItem generateMenuItemDrink() {
+        var item = new MenuItem();
+        item.setName(drink());
+        item.setDescription(null);
+        item.setPrice(BigDecimal.valueOf(random.nextDouble(5, 15)).setScale(2, RoundingMode.HALF_UP).doubleValue());
+        return item;
+    }
+
+    private String drink() {
+        String[] drinks = {
+                "Coca Cola",
+                "Fanta",
+                "Sprite",
+                "Lager",
+                "Ale",
+                "White wine",
+                "Red wine",
+                "Coffee",
+                "Tea"
+        };
+
+        return drinks[random.nextInt(drinks.length)];
+    }
+
+    /* --x-- Menu --x-- */
     /* ----- MISC UTILS ----- */
     private String generateIdentifierByIndex(int index) {
         if (index < 0 || index > 25) {
