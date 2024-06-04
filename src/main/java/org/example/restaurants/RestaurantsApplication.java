@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RestaurantsApplication {
 
 	public static void main(String[] args) {
+		Dotenv.configure().systemProperties().load();
 		SpringApplication.run(RestaurantsApplication.class, args);
 	}
 
