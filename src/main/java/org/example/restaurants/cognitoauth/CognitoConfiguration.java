@@ -93,4 +93,3 @@ public class CognitoConfiguration {
             return http.build();
         }
     }
-}
