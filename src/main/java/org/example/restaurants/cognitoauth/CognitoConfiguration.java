@@ -5,6 +5,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
+import com.amazonaws.services.cognitoidp.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,12 +15,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import com.amazonaws.services.cognitoidp.model.ConfirmSignUpRequest;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @Configuration
 @EnableWebSecurity
 public class CognitoConfiguration {
-    // läsa från env?
+
+    @Autowired
+    private CognitoProperties cognitoProperties;
+
     @Bean
     public AWSCognitoIdentityProvider cognitoClient() {
         BasicAWSCredentials awsCreds = new BasicAWSCredentials("ACCESS_KEY", "SECRET_KEY");
@@ -27,25 +36,61 @@ public class CognitoConfiguration {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
-    //Implementera
-    private final TokenValidationService tokenValidationService;
 
-    public CognitoConfiguration(TokenValidationService tokenValidationService) {
-        this.tokenValidationService = tokenValidationService;
+    public SignUpResult signUp(String name, String email, String password) {
+        SignUpRequest request = new SignUpRequest().withClientId()
+                .withUsername(email)
+                .withPassword(password)
+                .withUserAttributes(
+                        new AttributeType()
+                                .withName("name")
+                                .withValue(name));
+        SignUpResult result = cognitoClient().signUp(request);
+        return result;
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilter(new JwtAuthenticationFilter(tokenValidationService)); //Implementera
+    public ConfirmSignUpResult confirmSignUp(String email, String confirmationCode) {
+        ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest().withClientId().withUsername(email).withConfirmationCode(confirmationCode);
+        return cognitoClient().confirmSignUp(confirmSignUpRequest);
+    }
 
-        return http.build();
+    public Map<String, String> login(String email, String password) {
+        Map<String, String> authParams = new LinkedHashMap<String, String>() {{
+            put("USERNAME", email);
+            put("PASSWORD", password);
+        }};
+
+        AdminInitiateAuthRequest authRequest = new AdminInitiateAuthRequest()
+                .withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH)
+                .withUserPoolId(userid)
+                .withClientId(clientId)
+                .withAuthParameters(authParams);
+        AdminInitiateAuthResult authResult = cognitoClient().adminInitiateAuth(authRequest);
+        AuthenticationResultType resultType = authResult.getAuthenticationResult();
+        return new LinkedHashMap<String, String>() {{
+            put("idToken", resultType.getIdToken());
+            put("accessToken", resultType.getAccessToken());
+            put("refreshToken", resultType.getRefreshToken());
+            put("message", "Successfully login");
+        }};
+    }
+
+        private final TokenValidationService tokenValidationService;
+
+    public CognitoConfiguration(TokenValidationService tokenValidationService) {
+            this.tokenValidationService = tokenValidationService;
+        }
+
+        @Bean
+        public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
+            http.csrf(Customizer.withDefaults())
+                    .authorizeHttpRequests(authz -> authz.requestMatchers("/")
+                            .permitAll()
+                            .anyRequest()
+                            .authenticated())
+                    .oauth2Login(Customizer.withDefaults())
+                    .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutSuccessUrl("/"));
+            return http.build();
+        }
     }
 }
