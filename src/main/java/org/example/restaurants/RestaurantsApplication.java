@@ -9,7 +9,6 @@ public class RestaurantsApplication {
 
 	public static void main(String[] args) {
 		Dotenv.configure().systemProperties().load();
-		System.out.println(System.getenv("DB_URL"));
 		SpringApplication.run(RestaurantsApplication.class, args);
 	}
 
